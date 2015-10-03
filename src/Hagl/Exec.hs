@@ -22,7 +22,7 @@ module Hagl.Exec where
 
 import Control.Monad.State hiding (State)
 
-import Control.Monad (liftM,liftM2)
+import Control.Monad (liftM,liftM2,ap)
 import Data.Function (on)
 import Data.Maybe    (isJust)
 
@@ -315,9 +315,20 @@ times n = numPlaying >>= go n . tie
 -- Instances
 --
 
+instance Functor (ExecM g) where
+  fmap = liftM
+instance Applicative (ExecM g) where
+  pure  = return
+  (<*>) = ap
 instance Monad (ExecM g) where
   return = ExecM . return
   (ExecM x) >>= f = ExecM (x >>= unE . f)
+
+instance Functor (StratM s g) where
+  fmap = liftM
+instance Applicative (StratM s g) where
+  pure  = return
+  (<*>) = ap
 instance Monad (StratM s g) where
   return = StratM . return
   (StratM x) >>= f = StratM (x >>= unS . f)

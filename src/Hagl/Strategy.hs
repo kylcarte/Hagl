@@ -24,9 +24,11 @@ import Hagl.Exec
 -- * Some common strategies
 --
 
+{-
 -- | A pure strategy. Always plays the same move.
 pure :: Move g -> Strategy s g
 pure = return
+-}
 
 -- | A mixed strategy. Plays moves based on a distribution.
 mixed :: Dist (Move g) -> Strategy s g
